@@ -1,0 +1,10 @@
+[package]
+name = "logout-rs"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+rivia = "0.2.6"
+toml = "0.8.14"
+serde = { version = "1.0.203", features = ["derive"] }
+gtk = { version = "0.8.2", package = "gtk4", features = ["v4_12"] }
