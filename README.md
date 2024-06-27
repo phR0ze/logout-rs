@@ -22,15 +22,15 @@ opacity = 80
 icon_size = 150
 font_size = 25
 font_color = "#FFFFFF"
-# Action buttons to display on the logout screen
-actions = ["lock", "logout", "restart", "shutdown", "suspend", "hibernate"]
+# Action buttons to display on the logout screen in the order given
+actions = ["lock", "logout", "reboot", "shutdown", "suspend", "hibernate"]
 
 # Actions to execute when the buttons or keybindings are triggered.
 [actions]
 shutdown = "systemctl poweroff"
 hibernate = "systemctl hibernate"
 logout = "pkill -SIGTERM -f lxsession"
-restart = "systemctl reboot"
+reboot = "systemctl reboot"
 shutdown = "systemctl poweroff"
 suspend = "systemctl suspend"
 
@@ -39,7 +39,7 @@ suspend = "systemctl suspend"
 hibernate = "h"
 lock = "l"
 logout = "o"
-restart = "r"
+reboot = "r"
 shutdown = "s"
 suspend = "u"
 ```

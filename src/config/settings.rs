@@ -36,12 +36,11 @@ fn default_font_size() -> u32 {
 }
 fn default_actions() -> Vec<crate::Action> {
     vec![
-        crate::Action::Hibernate,
-        crate::Action::Lock,
         crate::Action::Logout,
-        crate::Action::Restart,
+        crate::Action::Reboot,
         crate::Action::Shutdown,
         crate::Action::Suspend,
+        crate::Action::Hibernate,
     ]
 }
 fn default_theme() -> String {

@@ -3,7 +3,7 @@ use serde::Deserialize;
 use std::fmt;
 
 // Enum for all actions
-#[derive(PartialEq, Deserialize)]
+#[derive(PartialEq, Deserialize, Clone, Copy)]
 pub(crate) enum Action {
     Cancel,
 
@@ -16,8 +16,8 @@ pub(crate) enum Action {
     #[serde(alias = "logout")]
     Logout,
 
-    #[serde(alias = "restart")]
-    Restart,
+    #[serde(alias = "reboot")]
+    Reboot,
 
     #[serde(alias = "shutdown")]
     Shutdown,
@@ -35,7 +35,7 @@ impl Action {
             gdk::Key::h => Action::Hibernate,
             gdk::Key::l => Action::Lock,
             gdk::Key::o => Action::Logout,
-            gdk::Key::r => Action::Restart,
+            gdk::Key::r => Action::Reboot,
             gdk::Key::s => Action::Shutdown,
             gdk::Key::u => Action::Suspend,
             _ => Action::None,
@@ -71,7 +71,7 @@ impl fmt::Debug for Action {
             Action::Hibernate => write!(f, "Hibernate"),
             Action::Lock => write!(f, "Lock"),
             Action::Logout => write!(f, "Logout"),
-            Action::Restart => write!(f, "Restart"),
+            Action::Reboot => write!(f, "Reboot"),
             Action::Shutdown => write!(f, "Shutdown"),
             Action::Suspend => write!(f, "Suspend"),
             Action::None => write!(f, "None"),

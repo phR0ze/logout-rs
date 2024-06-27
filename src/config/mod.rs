@@ -58,6 +58,11 @@ pub(crate) fn font_size() -> u32 {
     CONFIG.get().unwrap().settings.font_size
 }
 
+/// Return the configured actions
+pub(crate) fn actions() -> Vec<crate::Action> {
+    CONFIG.get().unwrap().settings.actions.clone()
+}
+
 // Config structures and defaults
 // -------------------------------------------------------------------------------------------------
 

@@ -41,14 +41,9 @@ fn build_ui(app: &Application) {
         .build();
 
     // Configure action buttons
-    // for action in config::actions() {
-    //     add_button(&hbox, action);
-    //}
-    add_button("logout", &hbox, |_| Action::Logout.run());
-    add_button("restart", &hbox, |_| Action::Restart.run());
-    add_button("shutdown", &hbox, |_| Action::Shutdown.run());
-    add_button("suspend", &hbox, |_| Action::Suspend.run());
-    add_button("lock", &hbox, |_| Action::Lock.run());
+    for action in config::actions() {
+        add_button(&hbox, action);
+    }
 
     window.set_child(Some(&hbox));
 
@@ -67,7 +62,9 @@ fn build_ui(app: &Application) {
 
 // Add a button with the given label to the given container and call the given callback function
 // when the button is triggered.
-fn add_button<F: Fn(&gtk::Button) + 'static>(label: &str, container: &gtk::Box, callback: F) {
+fn add_button(container: &gtk::Box, action: Action) {
+    let label = action.to_string();
+
     // Build the box to place the button and the label
     let btn_box = gtk::Box::builder()
         .orientation(gtk::Orientation::Vertical)
@@ -78,7 +75,7 @@ fn add_button<F: Fn(&gtk::Button) + 'static>(label: &str, container: &gtk::Box, 
 
     // Build the button and add the callback
     let btn = Button::builder().icon_name("logout").build();
-    btn.connect_clicked(callback);
+    btn.connect_clicked(move |_| action.run());
     btn_box.append(&btn);
 
     // Build the label and add it to the box
