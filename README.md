@@ -21,12 +21,12 @@ override config at `~/.config/logout-rs.toml`.
 opacity = 80
 icon_size = 150
 font_size = 25
-theme = white
-# Buttons to display on the logout screen
-buttons = ["lock", "logout", "restart", "shutdown", "suspend", "hibernate"]
+font_color = "#FFFFFF"
+# Action buttons to display on the logout screen
+actions = ["lock", "logout", "restart", "shutdown", "suspend", "hibernate"]
 
-# Commands to execute when the buttons or keybindings are triggered.
-[commands]
+# Actions to execute when the buttons or keybindings are triggered.
+[actions]
 shutdown = "systemctl poweroff"
 hibernate = "systemctl hibernate"
 logout = "pkill -SIGTERM -f lxsession"

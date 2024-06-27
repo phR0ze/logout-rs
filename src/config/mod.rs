@@ -1,8 +1,11 @@
-use rivia::prelude::*;
+use rivia_vfs::prelude::*;
 use serde::Deserialize;
-use std::fs;
 use std::sync::OnceLock;
+use std::{fmt, fs};
 use toml;
+
+mod settings;
+use settings::*;
 
 // Config singleton
 // -------------------------------------------------------------------------------------------------
@@ -25,13 +28,7 @@ pub(crate) fn init() {
 
     // Use defaults as no config file was found
     } else {
-        Config {
-            settings: Settings {
-                opacity: crate::OPACITY,
-                icon_size: crate::ICON_SIZE,
-                font_size: crate::FONT_SIZE,
-            },
-        }
+        Config::default()
     };
 
     // Set the singleton's value
@@ -51,6 +48,11 @@ pub(crate) fn icon_size() -> u32 {
     CONFIG.get().unwrap().settings.icon_size
 }
 
+/// Return the configured font color
+pub(crate) fn font_color() -> String {
+    CONFIG.get().unwrap().settings.font_color.clone()
+}
+
 /// Return the configured font size
 pub(crate) fn font_size() -> u32 {
     CONFIG.get().unwrap().settings.font_size
@@ -60,33 +62,30 @@ pub(crate) fn font_size() -> u32 {
 // -------------------------------------------------------------------------------------------------
 
 /// Configuration structure
-#[derive(Deserialize)]
+#[derive(PartialEq, Deserialize)]
 struct Config {
-    pub(crate) settings: Settings,
+    settings: Settings,
     //pub(super) logout: String,
 }
 
-/// Settings sub structure
-#[derive(Deserialize)]
-struct Settings {
-    #[serde(default = "default_opacity")]
-    pub(crate) opacity: f64,
-
-    #[serde(default = "default_icon_size")]
-    pub(crate) icon_size: u32,
-
-    #[serde(default = "default_font_size")]
-    pub(crate) font_size: u32,
-    //pub(crate) theme: white
-    //#pub(crate) buttons = ["lock", "logout", "restart", "shutdown", "suspend", "hibernate"]
+impl Default for Config {
+    fn default() -> Self {
+        Config {
+            settings: Settings::default(),
+        }
+    }
 }
 
-fn default_opacity() -> f64 {
-    crate::OPACITY
-}
-fn default_icon_size() -> u32 {
-    crate::ICON_SIZE
-}
-fn default_font_size() -> u32 {
-    crate::FONT_SIZE
+// Unit tests
+// -------------------------------------------------------------------------------------------------
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_default_config() {
+        init();
+        // assert_eq!(Config::default(), *CONFIG.get().unwrap());
+        //assert_eq!(super::font_color(), crate::FONT_COLOR);
+    }
 }

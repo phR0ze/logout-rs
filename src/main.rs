@@ -4,8 +4,10 @@ use gtk::{prelude::*, Button};
 mod actions;
 mod config;
 mod consts;
+mod theme;
 use actions::*;
 use consts::*;
+use theme::*;
 
 fn main() -> glib::ExitCode {
     config::init();
@@ -39,6 +41,9 @@ fn build_ui(app: &Application) {
         .build();
 
     // Configure action buttons
+    // for action in config::actions() {
+    //     add_button(&hbox, action);
+    //}
     add_button("logout", &hbox, |_| Action::Logout.run());
     add_button("restart", &hbox, |_| Action::Restart.run());
     add_button("shutdown", &hbox, |_| Action::Shutdown.run());
@@ -66,22 +71,30 @@ fn add_button<F: Fn(&gtk::Button) + 'static>(label: &str, container: &gtk::Box, 
     // Build the box to place the button and the label
     let btn_box = gtk::Box::builder()
         .orientation(gtk::Orientation::Vertical)
-        .spacing(SPACING)
+        //.spacing(SPACING)
         .halign(gtk::Align::Center)
         .valign(gtk::Align::Center)
         .build();
 
     // Build the button and add the callback
-    let lock_btn = Button::with_label(label);
-    lock_btn.connect_clicked(callback);
-    btn_box.append(&lock_btn);
+    let btn = Button::builder().icon_name("logout").build();
+    btn.connect_clicked(callback);
+    btn_box.append(&btn);
 
     // Build the label and add it to the box
-    let btn_label = gtk::Label::builder()
-        .label(label)
-        .valign(gtk::Align::Center)
-        .halign(gtk::Align::Center)
-        .build();
+    let hotkey = "L";
+    let btn_label = gtk::Label::default();
+    btn_label.set_markup(
+        format!(
+            "<span color=\"{}\" font=\"{}\">{} ({})</span>",
+            config::font_color(),
+            config::font_size(),
+            label,
+            hotkey
+        )
+        .as_str(),
+    );
+
     btn_box.append(&btn_label);
     container.append(&btn_box);
 }
