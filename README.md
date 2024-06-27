@@ -16,32 +16,25 @@ Simple, elegant linux desktop logout utility
 override config at `~/.config/logout-rs.toml`.
 
 ```toml
-# General settings for the logout-rs utility.
+# General settings
 [settings]
 opacity = 80
 icon_size = 150
 font_size = 25
 font_color = "#FFFFFF"
+theme = "cyber"
 # Action buttons to display on the logout screen in the order given
 actions = ["lock", "logout", "reboot", "shutdown", "suspend", "hibernate"]
 
-# Actions to execute when the buttons or keybindings are triggered.
+# Action definitions
+# Key is a single case insesitive value to be pressed to trigger the action.
 [actions]
-shutdown = "systemctl poweroff"
-hibernate = "systemctl hibernate"
-logout = "pkill -SIGTERM -f lxsession"
-reboot = "systemctl reboot"
-shutdown = "systemctl poweroff"
-suspend = "systemctl suspend"
-
-# Keybindings to trigger the actions. A single character is expected.
-[keys]
-hibernate = "h"
-lock = "l"
-logout = "o"
-reboot = "r"
-shutdown = "s"
-suspend = "u"
+lock = { key = "l", icon = "lock.svg", hover = "lock-hover.svg", cmd = "xflock4" }
+logout = { key = "o", icon = "logout.svg", hover = "logout-hover.svg", cmd = "pkill -SIGTERM -f lxsession" }
+reboot = { key = "r", icon = "reboot.svg", hover = "reboot-hover.svg", cmd = "systemctl reboot" }
+shutdown = { key = "s", icon = "shutdown.svg", hover = "shutdown-hover.svg", cmd = "systemctl poweroff" }
+suspend = { key = "u", icon = "suspend.svg", hover = "suspend-hover.svg", cmd = "systemctl suspend" }
+hibernate = { key = "h", icon = "hibernate.svg", hover = "hibernate-hover.svg", cmd = "systemctl hibernate" }
 ```
 
 ---
