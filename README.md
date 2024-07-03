@@ -12,8 +12,10 @@ Simple, elegant linux desktop logout utility
 # Usage
 
 ## Configuration
-***logout-rs*** can be configured with the global config at `/etc/logout-rs.toml` or using a user
-override config at `~/.config/logout-rs.toml`.
+***logout-rs*** can be configured with the global config specified with `XDG_CONFIG_DIRS` usually
+`/etc/xdg/logout-rs/config.toml` or with the local user override specified with `XDG_CONFIG_HOME` 
+usually `/home/USER/.config/logout-rs/config.toml`. Configuration will first be checked in the local 
+user configuration and then fall back on the system configuration paths.
 
 ```toml
 # General settings

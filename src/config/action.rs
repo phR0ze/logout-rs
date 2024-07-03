@@ -1,5 +1,5 @@
 use serde::Deserialize;
-use std::fmt;
+use std::fmt::{self, Write};
 
 // Enum for all actions
 #[derive(PartialEq, Deserialize, Clone, Debug)]
@@ -51,7 +51,12 @@ impl Default for Action {
 
 impl fmt::Display for Action {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        fmt::Debug::fmt(self, f)
+        f.write_str("Action:\n")?;
+        f.write_fmt(format_args!("  Name: {:?}\n", self.name))?;
+        f.write_fmt(format_args!("  Key: {:?}\n", self.key))?;
+        f.write_fmt(format_args!("  Cmd: {:?}\n", self.cmd))?;
+        f.write_fmt(format_args!("  Icon: {:?}\n", self.icon))?;
+        f.write_fmt(format_args!("  Hover: {:?}\n", self.hover))
     }
 }
 

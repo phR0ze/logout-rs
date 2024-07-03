@@ -1,6 +1,7 @@
 use rivia_vfs::prelude::*;
 use serde::Deserialize;
-use std::{env, sync::OnceLock};
+use std::{env, fmt, sync::OnceLock};
+use tracing::info;
 
 mod action;
 pub(crate) use action::*;
@@ -49,6 +50,9 @@ pub(crate) fn init() {
 
     // Validate the new configuration
     validate(&config);
+
+    // Log the active configuration
+    info!("{}", config);
 
     // Set the singleton's value
     CONFIG.get_or_init(|| config);
@@ -191,6 +195,21 @@ impl Default for Config {
             settings: Settings::default(),
             actions: default_actions(),
         }
+    }
+}
+
+impl fmt::Display for Config {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        f.write_str("Config:\n")?;
+        f.write_str("Config paths:\n")?;
+        f.write_fmt(format_args!("  Active: {:?}\n", self.active_path))?;
+        f.write_fmt(format_args!("  System: {:?}\n", self.sys_path))?;
+        f.write_fmt(format_args!("  User: {:?}\n", self.user_path))?;
+        fmt::Display::fmt(&self.settings, f)?;
+        for action in self.actions.iter() {
+            fmt::Display::fmt(&action, f)?;
+        }
+        Ok(())
     }
 }
 

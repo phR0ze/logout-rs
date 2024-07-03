@@ -3,19 +3,13 @@ use gtk::{prelude::*, Button};
 
 mod config;
 mod consts;
+mod logger;
 mod theme;
 use consts::*;
 
 fn main() -> glib::ExitCode {
-    if cfg!(debug_assertions) {
-        println!("Debug mode enabled");
-    }
+    logger::init();
     config::init();
-    if cfg!(debug_assertions) {
-        println!("Active: {:?}", config::active_path());
-        println!("System: {:?}", config::sys_path());
-        println!("User: {:?}", config::user_path());
-    }
 
     // Build the app
     let app = Application::builder().application_id(APP_ID).build();

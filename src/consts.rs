@@ -1,7 +1,8 @@
 /// Name of the application
 /// ID must have at least two segments separated by a period
 pub(crate) const APP_ID: &str = "cyberlinux.logout";
-pub(crate) const APP_NAME: &str = "Logout";
+pub(crate) const APP_NAME: &str = env!("CARGO_PKG_NAME");
+pub(crate) const APP_VER: &str = env!("CARGO_PKG_VERSION");
 
 /// Configuration filename and path to use
 pub(crate) const CONFIG_DIR: &str = "logout-rs";

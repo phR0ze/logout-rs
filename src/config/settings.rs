@@ -50,7 +50,12 @@ impl Default for Settings {
 
 impl fmt::Display for Settings {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        fmt::Debug::fmt(self, f)
+        f.write_str("Settings:\n")?;
+        f.write_fmt(format_args!("  Opacity: {}\n", self.opacity))?;
+        f.write_fmt(format_args!("  Icon Size: {}\n", self.icon_size))?;
+        f.write_fmt(format_args!("  Font Size: {}\n", self.font_size))?;
+        f.write_fmt(format_args!("  Font Color: {}\n", self.font_color))?;
+        f.write_fmt(format_args!("  Theme: {}\n", self.theme))
     }
 }
 
