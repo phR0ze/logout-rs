@@ -30,8 +30,6 @@ fn build_ui(app: &Application) {
     let window = ApplicationWindow::builder()
         .application(app)
         .title(APP_NAME)
-        .default_width(350)
-        .default_height(200)
         .opacity(config::opacity())
         .decorated(false)
         .fullscreened(true)
@@ -50,8 +48,9 @@ fn build_ui(app: &Application) {
         .build();
 
     // Configure action buttons
+    let len = config::longest_action_name();
     for action in config::actions() {
-        add_button(&hbox, action);
+        add_button(&hbox, action, len);
     }
 
     window.set_child(Some(&hbox));
@@ -96,7 +95,7 @@ fn setup_key_press_controller(actions: Vec<config::Action>) -> gtk::EventControl
 
 // Add a button with the given label to the given container and call the given callback function
 // when the button is triggered.
-fn add_button(container: &gtk::Box, action: config::Action) {
+fn add_button(container: &gtk::Box, action: config::Action, len: usize) {
     let label = action.name();
     let hotkey = action.key();
 
@@ -107,6 +106,9 @@ fn add_button(container: &gtk::Box, action: config::Action) {
         .halign(gtk::Align::Center)
         .valign(gtk::Align::Center)
         .build();
+    println!("Len: {}", len);
+    //btn_box.set_width_request(len as i32);
+    btn_box.set_width_request(40);
 
     //let file = gio::File::for_path("./examples/clipboard/asset.png");
     //let asset_paintable = gdk::Texture::from_file(&file).unwrap();

@@ -1,7 +1,7 @@
 use rivia_vfs::prelude::*;
 use serde::Deserialize;
 use std::{env, fmt, sync::OnceLock};
-use tracing::info;
+use tracing::debug;
 
 mod action;
 pub(crate) use action::*;
@@ -52,7 +52,7 @@ pub(crate) fn init() {
     validate(&config);
 
     // Log the active configuration
-    info!("{}", config);
+    debug!("{}", config);
 
     // Set the singleton's value
     CONFIG.get_or_init(|| config);
@@ -107,6 +107,19 @@ pub(crate) fn font_size() -> u32 {
 /// Return the configured actions
 pub(crate) fn actions() -> Vec<Action> {
     CONFIG.get().unwrap().actions.clone()
+}
+
+/// Return the number of characters in the longest named action
+pub(crate) fn longest_action_name() -> usize {
+    let actions = CONFIG.get().unwrap().actions.clone();
+    let mut result = 0;
+    for action in actions.iter() {
+        let len = action.name().len();
+        if len > result {
+            result = len;
+        }
+    }
+    result
 }
 
 // Config structures and defaults
